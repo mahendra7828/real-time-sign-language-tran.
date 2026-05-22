@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Language - Model Trainer</title>
+  <!-- Load MediaPipe dependencies from CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="app-container" id="trainer-container">
+    <header class="app-header">
+      <div class="logo">
+        <span class="icon">🏋️‍♂️</span>
+        <span class="text">GESTURE TRAINER</span>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html" class="nav-link">Translate</a>
+        <a href="trainer.html" class="nav-link active">Model Trainer</a>
+      </nav>
+    </header>
+
+    <main class="main-grid">
+      <!-- Left Column: Camera and overlay -->
+      <section class="card camera-section">
+        <div class="card-header">
+          <h2>Webcam Capture</h2>
+          <div class="debug-prediction">Live Prediction: <span id="live-prediction" style="color: var(--accent-cyan); font-weight: 700;">None</span></div>
+        </div>
+        <div class="video-container">
+          <video id="webcam" autoplay playsinline muted></video>
+          <canvas id="output_canvas"></canvas>
+          
+          <!-- Record Countdown overlay -->
+          <div id="record-overlay" class="overlay" style="display: none;">
+            <div id="record-countdown" class="countdown-text">3</div>
+            <div class="countdown-sub">Hold your hand steady in front of the camera!</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Record and Dataset Managers -->
+      <section class="card controls-section">
+        <div class="card-header">
+          <h2>Gesture Manager</h2>
+          <div class="badge-wrapper">Total Samples: <span id="sample-count" class="pill">0</span></div>
+        </div>
+
+        <!-- Capture Panel -->
+        <div class="panel capture-panel">
+          <h3>Record New Pose</h3>
+          <div class="form-group">
+            <label for="txt-label">Gesture Label (Text representation)</label>
+            <div class="input-row">
+              <input type="text" id="txt-label" placeholder="e.g. Hello, Ram Ram, Space, A" maxlength="20">
+              <button id="btn-record" class="btn primary">🔴 Record Pose</button>
+            </div>
+            <small>Tip: Recording captures 25 varying frames over 2.5 seconds to ensure 97%+ accuracy.</small>
+          </div>
+        </div>
+
+        <!-- Dataset List -->
+        <div class="panel dataset-panel">
+          <h3>Trained Gestures</h3>
+          <div class="table-wrapper">
+            <table id="class-table">
+              <thead>
+                <tr>
+                  <th>Gesture Name</th>
+                  <th>Sample Count</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td colspan="3" style="text-align: center; color: var(--text-dim);">No gestures recorded yet.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Actions Panel -->
+        <div class="panel actions-panel">
+          <div class="row">
+            <button id="btn-download" class="btn success flex-1">📥 Save & Download Model</button>
+            
+            <div class="file-input-wrapper flex-1">
+              <label for="file-upload" class="btn file-label w-100 text-center">📤 Load Model File</label>
+              <input type="file" id="file-upload" accept=".json">
+            </div>
+          </div>
+          <button id="btn-clear-all" class="btn danger w-100 mt-2">🗑️ Clear Entire Dataset</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <div class="footer-info">
+        <h3>Special Command Gestures:</h3>
+        <p>You can train helper utility gestures for typing: record a gesture and label it <strong>"Space"</strong> (inserts a space in translating mode), <strong>"Backspace"</strong> (deletes last character), or <strong>"Clear"</strong> (clears entire text).</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Main JavaScript File -->
+  <script type="module" src="app.js" defer></script>
+</body>
+</html>
