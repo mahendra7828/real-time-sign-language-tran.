@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Language Translator</title>
+  <!-- Load MediaPipe dependencies from CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+  <!-- CSS Stylesheet -->
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" crossorigin href="/assets/index-DGyidtsP.css">
+</head>
+<body>
+
+  <div class="app-container" id="translator-container">
+    <header class="app-header">
+      <div class="logo">
+        <span class="icon">🤟</span>
+        <span class="text">SIGN TRANSLATOR</span>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html" class="nav-link active">Translate</a>
+        <a href="trainer.html" class="nav-link">Model Trainer</a>
+      </nav>
+    </header>
+
+    <main class="main-grid">
+      <!-- Left Column: Webcam view -->
+      <section class="card camera-section">
+        <div class="card-header">
+          <h2>Webcam Stream</h2>
+          <div id="model-status" class="status-badge danger">Loading MediaPipe...</div>
+        </div>
+        <div class="video-container">
+          <video id="webcam" autoplay playsinline muted></video>
+          <canvas id="output_canvas"></canvas>
+        </div>
+      </section>
+
+      <!-- Right Column: Translator output -->
+      <section class="card output-section">
+        <div class="card-header">
+          <h2>Translation Output</h2>
+          <div id="confidence-badge" class="badge">0%</div>
+        </div>
+
+        <div class="text-board">
+          <div class="label">CURRENT SIGN</div>
+          <div id="text-output" class="text-main">-</div>
+        </div>
+
+        <div class="history-board">
+          <div class="label">COMPOSED SENTENCE</div>
+          <div id="history-text" class="text-history"></div>
+        </div>
+
+        <div class="controls-panel">
+          <div class="row">
+            <button id="btn-speak" class="btn primary">🔊 Speak Text</button>
+            <button id="btn-clear" class="btn secondary">🗑️ Clear Output</button>
+          </div>
+
+          <div class="row items-center justify-between settings-row">
+            <label class="checkbox-container">
+              <input type="checkbox" id="chk-auto-speak" checked>
+              <span class="checkmark"></span>
+              Auto-Speak on detect
+            </label>
+            
+            <div class="file-input-wrapper">
+              <label for="file-upload" class="btn file-label">📂 Upload Model (dataset.json)</label>
+              <input type="file" id="file-upload" accept=".json">
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <div class="footer-info">
+        <h3>How to translate:</h3>
+        <p>Ensure a custom dataset model is loaded. Show a gesture, and the detector will translate and output the word. Create special helper gestures labeled <strong>"Space"</strong>, <strong>"Backspace"</strong>, or <strong>"Clear"</strong> in the Model Trainer to type sentences!</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Main JavaScript File -->
+  <script src="app.js" defer></script>
+</body>
+</html>
